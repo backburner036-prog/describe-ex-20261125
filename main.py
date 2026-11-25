@@ -25,9 +25,13 @@ def validate(text: str) -> None:
         raise ValueError("entry text must not have leading/trailing whitespace")
     if "\n" in text or "\r" in text:
         raise ValueError("entry text must not contain a newline")
+    if any(ch.isspace() for ch in text):
+        raise ValueError("entry text must be a single word (no whitespace)")
     n_bytes = len(text.encode("utf-8"))
     if not 1 <= n_bytes <= 111:
-        raise ValueError(f"entry must be 1-111 UTF-8 characters, got {n_bytes}")
+        raise ValueError(
+            f"entry must be 1-111 UTF-8 characters (gate limit), got {n_bytes}"
+        )
 
 
 def main() -> None:
